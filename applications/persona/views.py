@@ -11,13 +11,19 @@ from rest_framework.generics import (
     RetrieveUpdateAPIView,
 )
 
-from .models import Person
+from .models import Person, Reunion
 
 from .serializers import (
     PersonSerializer,
     PersonaSerializer,
     PersonaSerializer2,
+    PersonaSerializer3,
+    ReunionSerializer,
+    ReunionSerializerLink,
+    PersonPagination,
+    CountReunionSerializer,
 )
+from applications.persona import serializers
 
 
 # Create your views here.
@@ -88,9 +94,43 @@ class PersonApiLista(ListAPIView):
     """
 
     # serializer_class = PersonaSerializer
-    serializer_class = PersonaSerializer2
+    serializer_class = PersonaSerializer3
 
     def get_queryset(self):
         return Person.objects.all()
 
 
+class ReunionApiLista(ListAPIView):
+    
+    serializer_class = ReunionSerializer
+
+    def get_queryset(self):
+        return Reunion.objects.all()
+
+
+class ReunionApiListaLink(ListAPIView):
+    
+    serializer_class = ReunionSerializerLink
+
+    def get_queryset(self):
+        return Reunion.objects.all()
+
+
+class PersonPaginationList(ListAPIView):
+    """
+        Lista personas con paginación
+    """
+
+    serializer_class = PersonaSerializer
+    pagination_class = PersonPagination
+
+    def get_queryset(self):
+        return Person.objects.all()
+
+
+class ReunionByPersonJob(ListAPIView):
+
+    serializer_class = CountReunionSerializer
+
+    def get_queryset(self):
+        return Reunion.objects.cantidad_reuniones_job()

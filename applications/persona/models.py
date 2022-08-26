@@ -4,6 +4,8 @@ from model_utils.models import TimeStampedModel
 #
 from django.db import models
 
+from .managers import ReunionManager
+
 # Create your models here.
 
 
@@ -69,7 +71,7 @@ class Reunion(TimeStampedModel):
         max_length=100
     )
 
-    
+    objects = ReunionManager()
 
     class Meta:
         verbose_name = 'Reunion'
